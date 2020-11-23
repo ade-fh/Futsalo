@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans&display=swap" rel="stylesheet">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Two+Tone" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Vue JS -->
+    <script src="js/vue.js"></script>
+    <!-- Vue resource -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js"
+        integrity="sha512-wGKmIfDWUJSUvxUfUayQPJj7ADCD60La3up0VCbq+MTFcOUQ2hlH2McnYFafHgLTsOrGwOdiHKX4p1v0BerCyQ=="
+        crossorigin="anonymous"></script>
+
+    <script src="js/whyUs.js"></script>
+    <script src="js/priceList.js"></script>
+    <script src="js/contact.js"></script>
+    <script src="js/booking.js"></script>
+    <title>Booking System</title>
+</head>
+
+<body>
+    <div id="main">
+        <!-- Main Navbar -->
+        <nav>
+            <div class="navigation-main nav-wrapper valign-wrapper">
+                <a href="#" class="brand-logo center">Futsalo</a>
+                <a href="#" data-target="slide-out" @click="animationsCon = true"
+                    class="sidenav-trigger left show-on-large">
+                    <i class="btnn material-icons">menu</i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Sidebar -->
+        <ul id="slide-out" class="sidenav">
+            <li>
+                <div class="user-view">
+                    <div class="background">
+                        <img src="img/bgNavbar.jpg">
+                    </div>
+                    <a v-if="animationsCon" href="#user"><img class="circle" src="img/futsalo.png"></a>
+                    <a v-if="animationsCon" href="#name"><span class="white-text name">Ade
+                            Firmansyah</span></a>
+                    <a v-if="animationsCon" href="#email"><span class="white-text">ade.f@mail.ugm.ac.id</span></a>
+                </div>
+            </li>
+            <li v-for="link in links">
+                <a @click="changeContent" href="javascript:;" :id="link.id" v-if="animationsCon"
+                    class="waves-effect links">
+                    <i class="material-icons-two-tone">{{ link.icon }}</i>
+                    {{ link.title }}
+                </a>
+            </li>
+            <span><a @click="animationsCon = false" href="javascript:;" class="sidenav-close"></a></span>
+        </ul>
+
+        <section class="content">
+            <booking :id=links[0].id></booking>
+            <pricelist :prices="prices" :id=links[1].id></pricelist>
+            <whyus :about="about" :id=links[2].id></whyus>
+            <contact :id="links[3].id"></contact>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems, {});
+        });
+
+
+
+        var app = new Vue({
+            el: '#main',
+            data:
+            {
+                links: [
+                    { title: "Booking", icon: "alarm", id: "linkone" },
+                    { title: "Price List", icon: "attach_money", id: "linktwo" },
+                    { title: "Why Us?", icon: "assignment", id: "linkthree" },
+                    { title: "Contact", icon: "contacts", id: "linkfour" },
+                ],
+                animationsCon: false,
+                about: [],
+                prices: []
+            },
+
+            methods:
+            {
+
+                changeContent() {
+                    //Closing The Sidenav
+                    document.getElementsByClassName('sidenav-close')[0].click();
+                    //Hiding all components & showing only the clicked component
+                    clickedOption = event.srcElement.id;
+                    componentToHide = document.getElementsByClassName('component');
+
+                    for (let x = 0; x < componentToHide.length; x++) {
+                        componentToHide[x].style.display = "none";
+                    }
+                    document.getElementsByClassName(clickedOption)[0].style.display = "block";
+                }
+            },
+
+            created() {
+                // Fetching Data From Firebase Database
+                this.$http.get('https://reservation-system-b68bc.firebaseio.com/whyus.json').then(function (data) {
+                    this.about = data.body;
+                });
+
+                this.$http.get('https://reservation-system-b68bc.firebaseio.com/prices.json').then(function (data) {
+                    this.prices = data.body;
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
