@@ -140,7 +140,7 @@ section.content
 .contact
 {
     text-align: center;
-    font-size: 3rem;
+    font-size: 2rem;
     background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), #ff000094);
     padding: 20px;
     border: solid 1px black;
@@ -149,7 +149,16 @@ section.content
 
 .contact i
 {
-    font-size: 3rem;
+    font-size: 2rem;
+}
+
+@media (max-width: 600px) {
+    .contact {
+      font-size: 1em;
+    }
+    .contact i {
+        font-size: 1em;
+    }
 }
 
 ::-webkit-scrollbar
