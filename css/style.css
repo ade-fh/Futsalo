@@ -106,17 +106,10 @@ section.content
     margin-bottom: 150px;
 }
 
-.why-us
-{
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
-    -webkit-text-fill-color: transparent;
-}
-
 .why-us, .pricelist
 {
-    background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), #ff000094);
-    color: rgba(0, 0, 0, 0.8);
+    background: #051e34;
+    color: white;
     padding: 20px;
     border-radius: 20px;
     border: solid 2px black;
@@ -139,9 +132,10 @@ section.content
 
 .contact
 {
+    color: white;
     text-align: center;
     font-size: 2rem;
-    background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), #ff000094);
+    background: #051e34;
     padding: 20px;
     border: solid 1px black;
     border-radius: 20px;
